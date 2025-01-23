@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2025 Dale Whinham <daleyo@gmail.com>
+ */
+
+/dts-v1/;
+
+#include "x1e80100.dtsi"
+#include "x1-microsoft-denali.dtsi"
+
+/ {
+	model = "Microsoft Surface Pro 11th Edition";
+	compatible = "microsoft,denali", "qcom,x1e80100";
+};
+
+&mdss_dp3 {
+	aux-bus {
+		panel {
+			compatible = "samsung,atna30dw01", "samsung,atna33xc20";
+		};
+	};
+};
+
+&gpu_zap_shader {
+	firmware-name = "qcom/x1e80100/microsoft/qcdxkmsuc8380.mbn";
+};
+
+&remoteproc_adsp {
+	firmware-name = "qcom/x1e80100/microsoft/Denali/qcadsp8380.mbn",
+			"qcom/x1e80100/microsoft/Denali/adsp_dtb.mbn";
+
+	status = "okay";
+};
+
+&remoteproc_cdsp {
+	firmware-name = "qcom/x1e80100/microsoft/Denali/qccdsp8380.mbn",
+			"qcom/x1e80100/microsoft/Denali/cdsp_dtb.mbn";
+
+	status = "okay";
+};
