@@ -1135,6 +1135,7 @@ properties:
               - dell,xps13-9345
               - hp,omnibook-x14
               - lenovo,yoga-slim7x
+              - microsoft,denali
               - microsoft,romulus13
               - microsoft,romulus15
               - qcom,x1e80100-crd
