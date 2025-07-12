@@ -1069,6 +1069,7 @@ properties:
               - hp,elitebook-ultra-g1q
               - hp,omnibook-x14
               - lenovo,yoga-slim7x
+              - microsoft,denali
               - microsoft,romulus13
               - microsoft,romulus15
               - qcom,x1e80100-crd
