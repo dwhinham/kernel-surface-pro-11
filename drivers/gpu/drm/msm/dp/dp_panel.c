@@ -91,6 +91,7 @@ static int msm_dp_panel_read_dpcd(struct msm_dp_panel *msm_dp_panel)
 	int rc, max_lttpr_lanes, max_lttpr_rate;
 	struct msm_dp_panel_private *panel;
 	struct msm_dp_link_info *link_info;
+	struct drm_dp_desc desc;
 	u8 *dpcd, major, minor;
 
 	panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
@@ -98,6 +99,19 @@ static int msm_dp_panel_read_dpcd(struct msm_dp_panel *msm_dp_panel)
 	rc = drm_dp_read_dpcd_caps(panel->aux, dpcd);
 	if (rc)
 		return rc;
+
+	rc = drm_dp_read_desc(panel->aux, &desc, drm_dp_is_branch(dpcd));
+	if (rc)
+		return rc;
+
+	/*
+	 * for some reason the ATNA30DW01-1 OLED panel in Microsoft Surface Pro 11
+	 * reports a max link rate of 0 in the DPCD register. Fix this to match the
+	 * EDPOverrideDPCDCaps value (0x1E) found in the ACPI DSDT
+	 */
+	if (drm_dp_has_quirk(&desc, DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_8_1_GBPS)) {
+		dpcd[1] = DP_LINK_BW_8_1;
+	}
 
 	msm_dp_panel->vsc_sdp_supported = drm_dp_vsc_sdp_supported(panel->aux, dpcd);
 	link_info = &msm_dp_panel->link_info;
